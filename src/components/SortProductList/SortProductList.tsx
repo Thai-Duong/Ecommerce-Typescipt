@@ -1,11 +1,15 @@
+// interface Prop {
+//   queryConfig: QueryConfig
+//   pageSize: number
+// }
 export default function SortProductList() {
   return (
-    <div className='bg-white px-3 py-4'>
+    <div className='px-3 py-4 bg-white'>
       <div className='flex flex-wrap items-center justify-between gap-2'>
         <div className='flex flex-wrap items-center gap-2'>
-          <button className='bg-orange h-8 px-4 text-sm capitalize '>Phổ Biến</button>
+          <button className='h-8 px-4 text-sm capitalize bg-orange '>Phổ Biến</button>
           <button
-            className='bg-orange h-8 px-4 text-sm capitalize '
+            className='h-8 px-4 text-sm capitalize bg-orange '
             // className={classNames('bg-orange h-8 px-4 text-sm capitalize ', {
             //   ' hover:bg-orange/80 text-white': isActiveSortBy(sortBy.createdAt),
             //   'bg-white text-black hover:bg-slate-500': !isActiveSortBy(sortBy.createdAt)
@@ -15,7 +19,7 @@ export default function SortProductList() {
             Mới Nhất
           </button>
           <button
-            className='bg-orange h-8 px-4 text-sm capitalize '
+            className='h-8 px-4 text-sm capitalize bg-orange '
             // className={classNames('bg-orange h-8 px-4 text-sm capitalize ', {
             //   ' hover:bg-orange/80 text-white': isActiveSortBy(sortBy.sold),
             //   'bg-white text-black hover:bg-slate-500': !isActiveSortBy(sortBy.sold)
@@ -24,8 +28,8 @@ export default function SortProductList() {
           >
             Bán Chạy
           </button>
-          <button className='bg-orange h-8 px-4 text-sm capitalize '>Giá : Cao đến Thấp</button>
-          <button className='bg-orange h-8 px-4 text-sm capitalize '>Giá : Thấp đến Cao</button>
+          <button className='h-8 px-4 text-sm capitalize bg-orange '>Giá : Cao đến Thấp</button>
+          <button className='h-8 px-4 text-sm capitalize bg-orange '>Giá : Thấp đến Cao</button>
           {/* <select
             className={classNames('h-8 px-4 text-sm capitalize text-black ', {
               'bg-orange hover:bg-orange/80 text-white': isActiveSortBy(sortBy.price),
@@ -46,7 +50,7 @@ export default function SortProductList() {
             <span className='text-orange'>{}</span>
             <span>/{}</span>
           </div>
-          <div className='ml-2 flex'>
+          <div className='flex ml-2'>
             {/* {page === 1 ? (
               <span className='flex items-center justify-center h-8 px-3 rounded-tl-sm rounded-bl-sm cursor-not-allowed w-9 bg-white/60 hover:bg-white'>
                 <svg

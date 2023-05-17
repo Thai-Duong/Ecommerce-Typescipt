@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import Popover from '../Popover'
 import { useMutation, useQuery } from 'react-query'
 import { useContext } from 'react'
@@ -8,9 +8,20 @@ import purchaseApi from 'src/api/purchase.api'
 import { purchasesStatus } from 'src/utils/purchase'
 import { formatCurrency } from 'src/utils/utils'
 import { queryClient } from 'src/main'
-
+import { useForm } from 'react-hook-form'
+import { Schema, schema } from 'src/utils/rules'
+import { yupResolver } from '@hookform/resolvers/yup'
+import useQueryConfig from 'src/hooks/useQueryConfig'
+type FormData = Pick<Schema, 'name'>
+const nameSchema = schema.pick(['name'])
 export default function Header() {
+  const queryConfig = useQueryConfig()
+  const navigate = useNavigate()
   const { setIsAuthentication, isAuthentication, setProfile, profile } = useContext(AppContext)
+  const { register, handleSubmit } = useForm<FormData>({
+    defaultValues: { name: '' },
+    resolver: yupResolver(nameSchema)
+  })
   const logoutMutation = useMutation({
     mutationFn: logoutAcount,
     onSuccess: () => {
@@ -28,6 +39,15 @@ export default function Header() {
   const handleLogout = () => {
     logoutMutation.mutate()
   }
+  const onSubmitSearch = handleSubmit((data) => {
+    navigate({
+      pathname: '/',
+      search: createSearchParams({
+        ...queryConfig,
+        name: data.name
+      }).toString()
+    })
+  })
   return (
     <div className='pt-2 text-white '>
       <div className='mx-[100px] pb-4'>
@@ -39,50 +59,62 @@ export default function Header() {
               className='w-[50%]'
             />
           </Link>
-          <form
-            className='col-span-7 '
-            //   onSubmit={onSubmitSearch}
-          >
+          <form className='col-span-7 ' onSubmit={onSubmitSearch}>
             <div className='relative flex rounded-sm p-1'>
               <input
                 type='text'
                 className='flex-grow rounded-lg border border-gray-500 bg-transparent px-3 py-2 text-black outline-none'
-                // {...register('name')}
+                {...register('name')}
               />
               <button className='absolute right-2 top-3 rounded-sm px-3 text-blue-500'>Tìm Kiếm</button>
             </div>
           </form>
           <div className='col-span-4 ml-5 text-gray-500'>
-            <div className='flex justify-end'>
-              <Link to='' className='flex items-center justify-center py-2 text-sm hover:rounded-lg hover:bg-gray-200'>
-                <img
-                  src='https://salt.tikicdn.com/ts/upload/b4/90/74/6baaecfa664314469ab50758e5ee46ca.png'
-                  alt='header_menu_item_home'
-                  className='mr-1 w-[15%]'
-                ></img>
-                Trang Chủ
-              </Link>
+            <div className='flex justify-end '>
+              <div className='flex items-center rounded-lg hover:bg-gray-200'>
+                <Link to='/' className='mx-3 flex items-center justify-center'>
+                  <img
+                    src='https://salt.tikicdn.com/ts/upload/b4/90/74/6baaecfa664314469ab50758e5ee46ca.png'
+                    alt='header_header_account_img'
+                    className='mr-2 h-6 w-6'
+                  />
+                  Trang Chủ
+                </Link>
+              </div>
 
-              <Popover
-                rederpopover={
-                  <div className='border'>
-                    <div className='block w-full bg-white px-3 py-2 text-left'>{profile?.email}</div>
-                    <Link to='' className='block w-full bg-white px-3 py-2 text-left'>
-                      Tài khoản của tôi
-                    </Link>
-                    <Link to='' className='block w-full bg-white px-3 py-2 text-left'>
-                      Đơn Hàng
-                    </Link>
-                    <button className='block w-full bg-white px-3 py-2 text-left' onClick={handleLogout}>
-                      Đăng Xuất
-                    </button>
+              {isAuthentication ? (
+                <Popover
+                  rederpopover={
+                    <div className='border'>
+                      <div className='block w-full bg-white px-3 py-2 text-left'>{profile?.email}</div>
+                      {/* <Link to='' className='block w-full px-3 py-2 text-left bg-white'>
+                        Tài khoản của tôi
+                      </Link> */}
+                      {/* <Link to='' className='block w-full px-3 py-2 text-left bg-white'>
+                        Đơn Hàng
+                      </Link> */}
+                      <button className='block w-full bg-white px-3 py-2 text-left' onClick={handleLogout}>
+                        Đăng Xuất
+                      </button>
+                    </div>
+                  }
+                >
+                  <div className='m-3 h-5 w-5 flex-shrink-0 '>
+                    <img className='h-full w-full rounded-full object-cover ' alt='' src={profile?.avatar} />
                   </div>
-                }
-              >
-                <div className='mr-2 h-5 w-5 flex-shrink-0 '>
-                  <img className='h-full w-full rounded-full object-cover' alt='' src={profile?.avatar} />
+                </Popover>
+              ) : (
+                <div className='flex items-center rounded-lg hover:bg-gray-200'>
+                  <Link to='/login' className='mx-3 flex items-center justify-center'>
+                    <img
+                      src='https://salt.tikicdn.com/ts/upload/07/d5/94/d7b6a3bd7d57d37ef6e437aa0de4821b.png'
+                      alt='header_header_account_img'
+                      className='mr-2 h-6 w-6'
+                    />
+                    Đăng Nhập
+                  </Link>
                 </div>
-              </Popover>
+              )}
               <div className='mx-1 mt-4 h-5 w-[1px] bg-gray-300'></div>
               <Popover
                 rederpopover={
@@ -107,12 +139,11 @@ export default function Header() {
                         </div>
                         <div className='mt-6 flex items-center justify-between'>
                           <div className='text-xs capitalize text-gray-500'>
-                            {/* {purchasesInCart.length > MAX_PURCHASES ? purchasesInCart.length - MAX_PURCHASES : ''} Thêm */}
-                            hàng vào giỏ
+                            {purchasesInCart.length > 5 ? purchasesInCart.length - 5 : ''} Thêm hàng vào giỏ
                           </div>
                           <Link
                             to='/cart'
-                            className='bg-orange rounded-sm px-4 py-2 capitalize text-white hover:bg-opacity-90'
+                            className='rounded-sm bg-red-500 px-4 py-2 capitalize text-white hover:bg-opacity-90'
                           >
                             Xem giỏ hàng
                           </Link>
@@ -120,7 +151,6 @@ export default function Header() {
                       </div>
                     ) : (
                       <div className='flex h-[300px] w-[300px] flex-col items-center justify-center p-2'>
-                        <img src='' alt='no purchase' className='h-24 w-24' />
                         <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
                       </div>
                     )}

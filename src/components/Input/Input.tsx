@@ -16,7 +16,7 @@ export default function Input({ register, errorMessage, name, type, placeholder 
         type={type}
         placeholder={placeholder}
         {...register(name)}
-        className='w-full rounded-md border border-gray-500 p-3 focus:border-blue-500'
+        className='w-full p-3 border border-gray-500 rounded-md focus:border-blue-500'
       />
       <div className='mt-2 text-sm text-red-500'>{errorMessage}</div>
     </div>

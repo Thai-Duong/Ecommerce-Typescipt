@@ -5,7 +5,7 @@ import Register from './pages/Register'
 import MainLayout from './layout/MainLayout'
 import { useContext } from 'react'
 import { AppContext } from './context/app.context'
-import Detail from './components/Detail'
+import Detail from './pages/Detail'
 import Cart from './pages/Cart'
 
 export default function useRouter() {

@@ -1,24 +1,27 @@
 import DOMPurify from 'dompurify'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import productApi from 'src/api/product.api'
 import { Product } from 'src/types/product.type'
 import { formatCurrency, formatNumbertoSocial, rateSale } from 'src/utils/utils'
-import Quantity from '../Quantity'
+import Quantity from '../../components/Quantity'
 import purchaseApi from 'src/api/purchase.api'
 import { queryClient } from 'src/main'
 import { purchasesStatus } from 'src/utils/purchase'
 import { toast } from 'react-toastify'
+import { AppContext } from 'src/context/app.context'
 
 export default function Detail() {
+  const { isAuthentication } = useContext(AppContext)
+  const navigate = useNavigate()
   const { id } = useParams()
   const [currentIndexImage, setCurrentIndexImage] = useState([0, 5])
-  const [buyCount, setBuyCount] = useState(1)
   const [activeImage, setActiveImage] = useState('')
   const { data } = useQuery({
     queryKey: ['product', id],
-    queryFn: () => productApi.getProductDetail(id as string)
+    queryFn: () => productApi.getProductDetail(id as string),
+    enabled: isAuthentication
   })
   const product = data?.data.data
   const currentImage = product?.images.slice(...currentIndexImage)
@@ -26,6 +29,7 @@ export default function Detail() {
   useEffect(() => {
     if (product && product.images.length > 0) setActiveImage(product?.images[0])
   }, [product])
+  const [buyCount, setBuyCount] = useState(1)
   const chooseActive = (img: string) => {
     setActiveImage(img)
   }
@@ -39,16 +43,20 @@ export default function Detail() {
       setCurrentIndexImage((prev) => [prev[0] - 1, prev[1] - 1])
     }
   }
-  const addToCart = () =>
-    addProductMutation.mutate(
-      { buy_count: buyCount, product_id: product?._id as string },
-      {
-        onSuccess: (data) => {
-          toast.success(data.data.message)
-          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
-        }
-      }
-    )
+  const addToCart = () => {
+    isAuthentication
+      ? addProductMutation.mutate(
+          { buy_count: buyCount, product_id: product?._id as string },
+          {
+            onSuccess: (data) => {
+              toast.success(data.data.message)
+              queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
+            }
+          }
+        )
+      : navigate('/login')
+  }
+
   if (!product) return null
   return (
     <div className=' bg-[#f5f5fa]'>

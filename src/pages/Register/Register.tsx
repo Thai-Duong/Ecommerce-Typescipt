@@ -36,9 +36,9 @@ export default function Register() {
   })
   return (
     <div className='px-[300px] py-[100px]'>
-      <div className='grid grid-cols-10 border border-gray-700 rounded-xl'>
+      <div className='grid grid-cols-10 rounded-xl border border-gray-700'>
         <div className='rounded-xl lg:col-span-7'>
-          <form onSubmit={onSubmit} className='p-10 bg-white'>
+          <form onSubmit={onSubmit} className='bg-white p-10'>
             <div className='text-2xl'>Chào Mừng,</div>
             <Input
               type='email'
@@ -65,7 +65,7 @@ export default function Register() {
             <div className='mt-5'>
               <button
                 type='submit'
-                className='w-full p-2 text-xl text-center text-white uppercase bg-red-600 rounded-md '
+                className='w-full rounded-md bg-red-600 p-2 text-center text-xl uppercase text-white '
               >
                 Đăng Ký
               </button>
