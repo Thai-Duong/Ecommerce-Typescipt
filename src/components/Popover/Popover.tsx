@@ -25,7 +25,7 @@ export default function Popover({ children, rederpopover }: Prop) {
       ref={refs.setReference}
       onMouseEnter={showPopover}
       onMouseLeave={hidePopover}
-      className='mr-6 flex cursor-pointer items-center py-1 hover:text-gray-300'
+      className='flex items-center py-1 mr-6 cursor-pointer  hover:text-gray-300'
     >
       {children}
       <FloatingPortal>

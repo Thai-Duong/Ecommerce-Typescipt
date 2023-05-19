@@ -1,13 +1,16 @@
+import { Suspense, lazy, useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
-import Login from './pages/Login'
-import Main from './pages/Main'
-import Register from './pages/Register'
-import MainLayout from './layout/MainLayout'
-import { useContext } from 'react'
 import { AppContext } from './context/app.context'
-import Detail from './pages/Detail'
-import Cart from './pages/Cart'
+import MainLayout from './layout/MainLayout'
+import UserLayout from './layout/UserLayout'
 
+const Login = lazy(() => import('./pages/Login'))
+const Main = lazy(() => import('./pages/Main'))
+const Profile = lazy(() => import('./pages/User/Profile'))
+const Register = lazy(() => import('./pages/Register'))
+const Detail = lazy(() => import('./pages/Detail'))
+const Cart = lazy(() => import('./pages/Cart'))
+const History = lazy(() => import('./pages/User/History'))
 export default function useRouter() {
   function ProtectRoute() {
     const { isAuthentication } = useContext(AppContext)
@@ -23,7 +26,9 @@ export default function useRouter() {
       index: true,
       element: (
         <MainLayout>
-          <Main />
+          <Suspense>
+            <Main />
+          </Suspense>
         </MainLayout>
       )
     },
@@ -31,7 +36,9 @@ export default function useRouter() {
       path: '/:id',
       element: (
         <MainLayout>
-          <Detail />
+          <Suspense>
+            <Detail />
+          </Suspense>
         </MainLayout>
       )
     },
@@ -43,7 +50,34 @@ export default function useRouter() {
           path: '/cart',
           element: (
             <MainLayout>
-              <Cart />
+              <Suspense>
+                <Cart />
+              </Suspense>
+            </MainLayout>
+          )
+        },
+        {
+          path: '/profile',
+          element: (
+            <MainLayout>
+              <UserLayout>
+                <Suspense>
+                  <Profile />
+                </Suspense>
+              </UserLayout>
+            </MainLayout>
+          )
+        },
+
+        {
+          path: '/history',
+          element: (
+            <MainLayout>
+              <UserLayout>
+                <Suspense>
+                  <History />
+                </Suspense>
+              </UserLayout>
             </MainLayout>
           )
         }
@@ -57,7 +91,9 @@ export default function useRouter() {
           path: '/login',
           element: (
             <MainLayout>
-              <Login />
+              <Suspense>
+                <Login />
+              </Suspense>
             </MainLayout>
           )
         },
@@ -65,7 +101,9 @@ export default function useRouter() {
           path: '/register',
           element: (
             <MainLayout>
-              <Register />
+              <Suspense>
+                <Register />
+              </Suspense>
             </MainLayout>
           )
         }

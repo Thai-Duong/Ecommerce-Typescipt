@@ -4,20 +4,15 @@ interface Props {
   placeholder?: string
   errorMessage?: string
   name: string
-  //   classNameInput?: string
+  className: string
   //   classNameError?: string
   register: UseFormRegister<any>
   //   rules?: RegisterOptions
 }
-export default function Input({ register, errorMessage, name, type, placeholder }: Props) {
+export default function Input({ register, errorMessage, name, type, placeholder, className }: Props) {
   return (
-    <div className='mt-8'>
-      <input
-        type={type}
-        placeholder={placeholder}
-        {...register(name)}
-        className='w-full p-3 border border-gray-500 rounded-md focus:border-blue-500'
-      />
+    <div>
+      <input type={type} placeholder={placeholder} {...register(name)} className={className} />
       <div className='mt-2 text-sm text-red-500'>{errorMessage}</div>
     </div>
   )

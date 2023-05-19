@@ -4,7 +4,6 @@ import productApi from 'src/api/product.api'
 import AsiderFiter from 'src/components/AsiderFiter'
 import Pagination from 'src/components/Pagination'
 import Product from 'src/components/Product'
-import SortProductList from 'src/components/SortProductList'
 import useQueryConfig from 'src/hooks/useQueryConfig'
 import { ProductListConfig } from 'src/types/product.type'
 export type QueryConfig = {
@@ -28,7 +27,7 @@ export default function Main() {
   })
   return (
     <div className='bg-[#f5f5fa] py-6 '>
-      <div className='mx-auto max-w-7xl px-4'>
+      <div className='px-4 mx-auto max-w-7xl'>
         {productData && (
           <div className='grid grid-cols-12 gap-6'>
             <div className='col-span-3'>
@@ -36,7 +35,7 @@ export default function Main() {
             </div>
             <div className='col-span-9'>
               {/* <SortProductList queryConfig={queryConfig} pageSize={productData.data.data.pagination.page_size} /> */}
-              <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+              <div className='grid grid-cols-2 gap-3 mt-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
                 {productData?.data.data.products.map((product) => (
                   <div className='col-span-1' key={product._id}>
                     <Product product={product} />

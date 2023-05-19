@@ -1,19 +1,19 @@
 import DOMPurify from 'dompurify'
 import { useContext, useEffect, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import productApi from 'src/api/product.api'
 import { Product } from 'src/types/product.type'
 import { formatCurrency, formatNumbertoSocial, rateSale } from 'src/utils/utils'
 import Quantity from '../../components/Quantity'
 import purchaseApi from 'src/api/purchase.api'
-import { queryClient } from 'src/main'
 import { purchasesStatus } from 'src/utils/purchase'
 import { toast } from 'react-toastify'
 import { AppContext } from 'src/context/app.context'
 
 export default function Detail() {
   const { isAuthentication } = useContext(AppContext)
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   const { id } = useParams()
   const [currentIndexImage, setCurrentIndexImage] = useState([0, 5])

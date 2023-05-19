@@ -1,13 +1,12 @@
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import Popover from '../Popover'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
 import { logoutAcount } from 'src/api/auth.api'
 import purchaseApi from 'src/api/purchase.api'
 import { purchasesStatus } from 'src/utils/purchase'
 import { formatCurrency } from 'src/utils/utils'
-import { queryClient } from 'src/main'
 import { useForm } from 'react-hook-form'
 import { Schema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -17,6 +16,7 @@ const nameSchema = schema.pick(['name'])
 export default function Header() {
   const queryConfig = useQueryConfig()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const { setIsAuthentication, isAuthentication, setProfile, profile } = useContext(AppContext)
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: { name: '' },
@@ -51,7 +51,7 @@ export default function Header() {
   return (
     <div className='pt-2 text-white '>
       <div className='mx-[100px] pb-4'>
-        <div className='mt-1 grid grid-cols-12 '>
+        <div className='grid grid-cols-12 mt-1 '>
           <Link to='/' className='col-span-1'>
             <img
               src='https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png'
@@ -60,23 +60,23 @@ export default function Header() {
             />
           </Link>
           <form className='col-span-7 ' onSubmit={onSubmitSearch}>
-            <div className='relative flex rounded-sm p-1'>
+            <div className='relative flex p-1 rounded-sm'>
               <input
                 type='text'
-                className='flex-grow rounded-lg border border-gray-500 bg-transparent px-3 py-2 text-black outline-none'
+                className='flex-grow px-3 py-2 text-black bg-transparent border border-gray-500 rounded-lg outline-none'
                 {...register('name')}
               />
-              <button className='absolute right-2 top-3 rounded-sm px-3 text-blue-500'>Tìm Kiếm</button>
+              <button className='absolute px-3 text-blue-500 rounded-sm right-2 top-3'>Tìm Kiếm</button>
             </div>
           </form>
           <div className='col-span-4 ml-5 text-gray-500'>
             <div className='flex justify-end '>
               <div className='flex items-center rounded-lg hover:bg-gray-200'>
-                <Link to='/' className='mx-3 flex items-center justify-center'>
+                <Link to='/' className='flex items-center justify-center mx-3'>
                   <img
                     src='https://salt.tikicdn.com/ts/upload/b4/90/74/6baaecfa664314469ab50758e5ee46ca.png'
                     alt='header_header_account_img'
-                    className='mr-2 h-6 w-6'
+                    className='w-6 h-6 mr-2'
                   />
                   Trang Chủ
                 </Link>
@@ -86,30 +86,30 @@ export default function Header() {
                 <Popover
                   rederpopover={
                     <div className='border'>
-                      <div className='block w-full bg-white px-3 py-2 text-left'>{profile?.email}</div>
-                      {/* <Link to='' className='block w-full px-3 py-2 text-left bg-white'>
+                      <div className='block w-full px-3 py-2 text-left bg-white'>{profile?.email}</div>
+                      <Link to='/profile' className='block w-full px-3 py-2 text-left bg-white'>
                         Tài khoản của tôi
-                      </Link> */}
+                      </Link>
                       {/* <Link to='' className='block w-full px-3 py-2 text-left bg-white'>
                         Đơn Hàng
                       </Link> */}
-                      <button className='block w-full bg-white px-3 py-2 text-left' onClick={handleLogout}>
+                      <button className='block w-full px-3 py-2 text-left bg-white' onClick={handleLogout}>
                         Đăng Xuất
                       </button>
                     </div>
                   }
                 >
-                  <div className='m-3 h-5 w-5 flex-shrink-0 '>
-                    <img className='h-full w-full rounded-full object-cover ' alt='' src={profile?.avatar} />
+                  <div className='flex-shrink-0 w-5 h-5 m-3 '>
+                    <img className='object-cover w-full h-full rounded-full ' alt='' src={profile?.avatar} />
                   </div>
                 </Popover>
               ) : (
                 <div className='flex items-center rounded-lg hover:bg-gray-200'>
-                  <Link to='/login' className='mx-3 flex items-center justify-center'>
+                  <Link to='/login' className='flex items-center justify-center mx-3'>
                     <img
                       src='https://salt.tikicdn.com/ts/upload/07/d5/94/d7b6a3bd7d57d37ef6e437aa0de4821b.png'
                       alt='header_header_account_img'
-                      className='mr-2 h-6 w-6'
+                      className='w-6 h-6 mr-2'
                     />
                     Đăng Nhập
                   </Link>
@@ -121,29 +121,29 @@ export default function Header() {
                   <div className='relative max-w-[350px] rounded-sm border border-gray-200 bg-white text-sm shadow-md'>
                     {purchasesInCart && purchasesInCart.length > 0 ? (
                       <div className='p-2'>
-                        <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
+                        <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
                         <div className='mt-5'>
                           {purchasesInCart.slice(0, 5).map((purchase) => (
-                            <div className='mt-2 flex py-2 hover:bg-gray-100' key={purchase._id}>
+                            <div className='flex py-2 mt-2 hover:bg-gray-100' key={purchase._id}>
                               <div className='flex-shrink-0'>
-                                <img src='' alt='' className='h-11 w-11 object-cover' />
+                                <img src='' alt='' className='object-cover h-11 w-11' />
                               </div>
-                              <div className='ml-2 flex-grow overflow-hidden'>
+                              <div className='flex-grow ml-2 overflow-hidden'>
                                 <div className='truncate'>{purchase.product.name}</div>
                               </div>
-                              <div className='ml-2 flex-shrink-0'>
+                              <div className='flex-shrink-0 ml-2'>
                                 <span className='text-orange'>₫{formatCurrency(purchase.product.price)}</span>
                               </div>
                             </div>
                           ))}
                         </div>
-                        <div className='mt-6 flex items-center justify-between'>
-                          <div className='text-xs capitalize text-gray-500'>
+                        <div className='flex items-center justify-between mt-6'>
+                          <div className='text-xs text-gray-500 capitalize'>
                             {purchasesInCart.length > 5 ? purchasesInCart.length - 5 : ''} Thêm hàng vào giỏ
                           </div>
                           <Link
                             to='/cart'
-                            className='rounded-sm bg-red-500 px-4 py-2 capitalize text-white hover:bg-opacity-90'
+                            className='px-4 py-2 text-white capitalize bg-red-500 rounded-sm hover:bg-opacity-90'
                           >
                             Xem giỏ hàng
                           </Link>

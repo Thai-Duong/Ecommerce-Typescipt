@@ -29,23 +29,24 @@ export default function Register() {
   const onSubmit = handleSubmit((data) => {
     const body = omit(data, ['comfirm_password'])
     registerMutation.mutate(body, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         setIsAuthentication(true), navigate('/')
       }
     })
   })
   return (
     <div className='px-[300px] py-[100px]'>
-      <div className='grid grid-cols-10 rounded-xl border border-gray-700'>
+      <div className='grid grid-cols-10 border border-gray-700 rounded-xl'>
         <div className='rounded-xl lg:col-span-7'>
-          <form onSubmit={onSubmit} className='bg-white p-10'>
-            <div className='text-2xl'>Chào Mừng,</div>
+          <form onSubmit={onSubmit} className='p-10 bg-white'>
+            <div className='mb-5 text-2xl'>Chào Mừng,</div>
             <Input
               type='email'
               name='email'
               register={register}
               placeholder='Email'
               errorMessage={errors.email?.message}
+              className='w-full p-3 border border-gray-500 rounded-md focus:border-blue-500'
             ></Input>
             <Input
               register={register}
@@ -53,6 +54,7 @@ export default function Register() {
               name='password'
               placeholder='Password'
               errorMessage={errors.password?.message}
+              className='w-full p-3 border border-gray-500 rounded-md focus:border-blue-500'
             ></Input>
             <Input
               register={register}
@@ -60,12 +62,13 @@ export default function Register() {
               name='comfirm_password'
               placeholder='Comfirm_password'
               errorMessage={errors.comfirm_password?.message}
+              className='w-full p-3 border border-gray-500 rounded-md focus:border-blue-500'
             ></Input>
 
             <div className='mt-5'>
               <button
                 type='submit'
-                className='w-full rounded-md bg-red-600 p-2 text-center text-xl uppercase text-white '
+                className='w-full p-2 text-xl text-center text-white uppercase bg-red-600 rounded-md '
               >
                 Đăng Ký
               </button>

@@ -39,13 +39,14 @@ export default function Login() {
         <div className='rounded-xl lg:col-span-7'>
           <form onSubmit={onSubmit} className='bg-white p-10'>
             <div className='text-2xl'>Xin Chào,</div>
-            <p>Đăng nhập hoặc Tạo tài khoản</p>
+            <p className='mb-5'>Đăng nhập hoặc Tạo tài khoản</p>
             <Input
               type='email'
               name='email'
               register={register}
               placeholder='Email'
               errorMessage={errors.email?.message}
+              className='w-full rounded-md border border-gray-500 p-3 focus:border-blue-500'
             ></Input>
             <Input
               register={register}
@@ -53,6 +54,7 @@ export default function Login() {
               name='password'
               placeholder='Password'
               errorMessage={errors.password?.message}
+              className='w-full rounded-md border border-gray-500 p-3 focus:border-blue-500'
             ></Input>
 
             <div className='mt-5'>
