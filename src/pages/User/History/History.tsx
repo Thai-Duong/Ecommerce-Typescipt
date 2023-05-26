@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { Helmet } from 'react-helmet'
 import { useQuery } from 'react-query'
 import { Link, createSearchParams } from 'react-router-dom'
 import purchaseApi from 'src/api/purchase.api'
@@ -24,6 +25,10 @@ export default function History() {
   const purchasesInCart = cart?.data.data
   return (
     <div>
+      <Helmet>
+        <title>Lịch Sử Mua Hàng | Shop</title>
+        <meta name='description' content='Trang lịch sử mua hàng của người dùng' />
+      </Helmet>
       <div className='sticky top-0 flex rounded-t-sm shadow-'>
         {purchaseTabs.map((tab) => (
           <Link

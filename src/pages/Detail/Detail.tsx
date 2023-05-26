@@ -10,6 +10,7 @@ import purchaseApi from 'src/api/purchase.api'
 import { purchasesStatus } from 'src/utils/purchase'
 import { toast } from 'react-toastify'
 import { AppContext } from 'src/context/app.context'
+import { Helmet } from 'react-helmet'
 
 export default function Detail() {
   const { isAuthentication } = useContext(AppContext)
@@ -60,21 +61,25 @@ export default function Detail() {
   if (!product) return null
   return (
     <div className=' bg-[#f5f5fa]'>
-      <div className='mx-auto max-w-7xl px-4'>
-        <div className='bg-white p-4 shadow'>
+      <Helmet>
+        <title>{product.name}</title>
+        <meta name='description' content='Trang chi tiết sản phẩm của shop' />
+      </Helmet>
+      <div className='px-4 mx-auto max-w-7xl'>
+        <div className='p-4 bg-white shadow'>
           <div className='grid grid-cols-12 gap-9'>
             <div className='col-span-5 '>
               <div className='relative w-full cursor-zoom-in overflow-hidden pt-[100%]'>
                 <img
-                  className='pointer-events-none absolute left-0 top-0 h-full w-full bg-white object-cover'
+                  className='absolute top-0 left-0 object-cover w-full h-full bg-white pointer-events-none'
                   src={activeImage}
                   alt=''
                 />
               </div>
-              <div className='relative mt-4 grid grid-cols-5 gap-1'>
+              <div className='relative grid grid-cols-5 gap-1 mt-4'>
                 <button
                   onClick={prev}
-                  className='absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'
+                  className='absolute left-0 z-10 w-5 text-white -translate-y-1/2 top-1/2 h-9 bg-black/20'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -82,7 +87,7 @@ export default function Detail() {
                     viewBox='0 0 24 24'
                     strokeWidth='1.5'
                     stroke='currentColor'
-                    className='h-5 w-5'
+                    className='w-5 h-5'
                   >
                     <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
                   </svg>
@@ -91,14 +96,14 @@ export default function Detail() {
                   const isActive = img === activeImage
                   return (
                     <div className='relative w-full pt-[100%]' key={img} onMouseEnter={() => chooseActive(img)}>
-                      <img className='absolute left-0 top-0 h-full w-full bg-white object-cover' src={img} alt='' />
+                      <img className='absolute top-0 left-0 object-cover w-full h-full bg-white' src={img} alt='' />
                       {isActive && <div className='absolute inset-0 border-2 border-gray-500'></div>}
                     </div>
                   )
                 })}
                 <button
                   onClick={next}
-                  className='absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'
+                  className='absolute right-0 z-10 w-5 text-white -translate-y-1/2 top-1/2 h-9 bg-black/20'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -106,7 +111,7 @@ export default function Detail() {
                     viewBox='0 0 24 24'
                     strokeWidth='1.5'
                     stroke='currentColor'
-                    className='h-5 w-5'
+                    className='w-5 h-5'
                   >
                     <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
                   </svg>
@@ -115,9 +120,9 @@ export default function Detail() {
             </div>
             <div className='col-span-7'>
               <h1 className='text-xl font-medium uppercase'>{product.name}</h1>
-              <div className='mt-8 flex items-center'>
+              <div className='flex items-center mt-8'>
                 <div className='flex items-center'>
-                  <span className='border-b-orange text-orange mr-1 border'>{product.rating}</span>
+                  <span className='mr-1 border border-b-orange text-orange'>{product.rating}</span>
                   <div className='mx-4 h-4 w-[1px] bg-gray-300'></div>
                   <div className=''>
                     <span className='mr-3'>Đã Bán</span>
@@ -125,22 +130,22 @@ export default function Detail() {
                   </div>
                 </div>
               </div>
-              <div className='mt-8 flex items-center bg-gray-50 px-5 py-4'>
+              <div className='flex items-center px-5 py-4 mt-8 bg-gray-50'>
                 <div className='mr-3 text-4xl font-bold text-red-500'>{formatCurrency(product.price)}₫</div>
                 <div className='text-gray-500 line-through'>{formatCurrency(product.price_before_discount)}₫</div>
-                <div className='ml-2 rounded-sm px-4 py-3 text-sm font-semibold uppercase text-red-500 '>
+                <div className='px-4 py-3 ml-2 text-sm font-semibold text-red-500 uppercase rounded-sm '>
                   {rateSale(product.price_before_discount, product.price)} GIẢm
                 </div>
               </div>
-              <div className='mt-7 flex items-center'>
-                <div className='mr-3 capitalize text-gray-500'>Số lượng</div>
+              <div className='flex items-center mt-7'>
+                <div className='mr-3 text-gray-500 capitalize'>Số lượng</div>
                 <Quantity max={product.quantity} buyCount={buyCount} setBuyCount={setBuyCount} />
-                <div className='text-gray- ml-6 text-sm'>Còn {product.quantity} sản phẩm</div>
+                <div className='ml-6 text-sm text-gray-'>Còn {product.quantity} sản phẩm</div>
               </div>
-              <div className='mt-8 flex items-center'>
+              <div className='flex items-center mt-8'>
                 <button
                   onClick={addToCart}
-                  className='flex h-12 items-center justify-center rounded-lg border border-red-500 bg-red-600 px-10 capitalize text-white hover:bg-red-300'
+                  className='flex items-center justify-center h-12 px-10 text-white capitalize bg-red-600 border border-red-500 rounded-lg hover:bg-red-300'
                 >
                   Chọn Mua
                 </button>
@@ -150,10 +155,10 @@ export default function Detail() {
         </div>
       </div>
       <div className='mt-8'>
-        <div className='container mx-auto max-w-7xl px-4'>
-          <div className='mt-8 bg-white p-4 shadow-sm'>
-            <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô Tả Sản Phẩm</div>
-            <div className='mx-4 mb-4 mt-12 text-sm leading-loose'>
+        <div className='container px-4 mx-auto max-w-7xl'>
+          <div className='p-4 mt-8 bg-white shadow-sm'>
+            <div className='p-4 text-lg capitalize rounded bg-gray-50 text-slate-700'>Mô Tả Sản Phẩm</div>
+            <div className='mx-4 mt-12 mb-4 text-sm leading-loose'>
               <div
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(product.description)
@@ -164,9 +169,9 @@ export default function Detail() {
         </div>
       </div>
       <div className='mt-8'>
-        <div className='container mx-auto max-w-7xl px-4'>
-          <div className='uppercase text-gray-400'>có thể bạn cũng thích</div>
-          <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
+        <div className='container px-4 mx-auto max-w-7xl'>
+          <div className='text-gray-400 uppercase'>có thể bạn cũng thích</div>
+          <div className='grid grid-cols-2 gap-3 mt-6 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
             {/* {productsData &&
               productsData.data.data.products.map((product) => (
                 <div className='col-span-1' key={product._id}>

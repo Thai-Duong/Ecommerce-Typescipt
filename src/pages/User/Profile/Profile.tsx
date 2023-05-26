@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect } from 'react'
+import { Helmet } from 'react-helmet'
 import { Controller, useForm } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
@@ -49,6 +50,10 @@ export default function Profile() {
   })
   return (
     <div className='px-2 pb-10 bg-white rounded-sm shadow md:px-7 md:pb-20'>
+      <Helmet>
+        <title>Tài Khoản | Shop</title>
+        <meta name='description' content='Trang tài khoản của người dùng' />
+      </Helmet>
       <div className='py-6 border-b border-b-gray-200'>
         <h1 className='text-lg font-medium text-gray-900 capitalize'>Hồ Sơ Của Tôi</h1>
         <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>

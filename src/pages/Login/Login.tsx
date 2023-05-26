@@ -7,6 +7,7 @@ import { loginAcount } from 'src/api/auth.api'
 import { useMutation } from 'react-query'
 import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
+import { Helmet } from 'react-helmet'
 interface FormData {
   email: string
   password: string
@@ -35,9 +36,13 @@ export default function Login() {
 
   return (
     <div className='px-[300px] py-[100px]'>
-      <div className='grid grid-cols-10 rounded-xl border border-gray-700 '>
+      <Helmet>
+        <title> Trang Đăng Nhập | Shop</title>
+        <meta name='description' content='Trang đăng nhập của shop' />
+      </Helmet>
+      <div className='grid grid-cols-10 border border-gray-700 rounded-xl '>
         <div className='rounded-xl lg:col-span-7'>
-          <form onSubmit={onSubmit} className='bg-white p-10'>
+          <form onSubmit={onSubmit} className='p-10 bg-white'>
             <div className='text-2xl'>Xin Chào,</div>
             <p className='mb-5'>Đăng nhập hoặc Tạo tài khoản</p>
             <Input
@@ -46,7 +51,7 @@ export default function Login() {
               register={register}
               placeholder='Email'
               errorMessage={errors.email?.message}
-              className='w-full rounded-md border border-gray-500 p-3 focus:border-blue-500'
+              className='w-full p-3 border border-gray-500 rounded-md focus:border-blue-500'
             ></Input>
             <Input
               register={register}
@@ -54,13 +59,13 @@ export default function Login() {
               name='password'
               placeholder='Password'
               errorMessage={errors.password?.message}
-              className='w-full rounded-md border border-gray-500 p-3 focus:border-blue-500'
+              className='w-full p-3 border border-gray-500 rounded-md focus:border-blue-500'
             ></Input>
 
             <div className='mt-5'>
               <button
                 type='submit'
-                className='w-full rounded-md bg-red-600 p-2 text-center text-xl uppercase text-white '
+                className='w-full p-2 text-xl text-center text-white uppercase bg-red-600 rounded-md '
               >
                 Đăng Nhập
               </button>

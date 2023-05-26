@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet'
 import { useQuery } from 'react-query'
 import categoryApi from 'src/api/categories'
 import productApi from 'src/api/product.api'
@@ -27,6 +28,10 @@ export default function Main() {
   })
   return (
     <div className='bg-[#f5f5fa] py-6 '>
+      <Helmet>
+        <title>Trang Chủ | Shop</title>
+        <meta name='description' content='Trang chủ của shop' />
+      </Helmet>
       <div className='px-4 mx-auto max-w-7xl'>
         {productData && (
           <div className='grid grid-cols-12 gap-6'>

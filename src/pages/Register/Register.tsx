@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import omit from 'lodash/omit'
 import { useContext } from 'react'
+import { Helmet } from 'react-helmet'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { Link, useNavigate } from 'react-router-dom'
@@ -36,6 +37,10 @@ export default function Register() {
   })
   return (
     <div className='px-[300px] py-[100px]'>
+      <Helmet>
+        <title>Trang Đăng Ký | Shop</title>
+        <meta name='description' content='Trang đăng ký tài khoản của shop' />
+      </Helmet>
       <div className='grid grid-cols-10 border border-gray-700 rounded-xl'>
         <div className='rounded-xl lg:col-span-7'>
           <form onSubmit={onSubmit} className='p-10 bg-white'>
