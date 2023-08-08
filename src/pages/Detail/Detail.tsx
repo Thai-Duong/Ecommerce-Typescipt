@@ -168,19 +168,19 @@ export default function Detail() {
           </div>
         </div>
       </div>
-      <div className='mt-8'>
+      {/* <div className='mt-8'>
         <div className='container px-4 mx-auto max-w-7xl'>
           <div className='text-gray-400 uppercase'>có thể bạn cũng thích</div>
           <div className='grid grid-cols-2 gap-3 mt-6 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
-            {/* {productsData &&
-              productsData.data.data.products.map((product) => (
+            {products &&
+              products.data.data.products.map((product) => (
                 <div className='col-span-1' key={product._id}>
                   <Product product={product} />
                 </div>
-              ))} */}
+              ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

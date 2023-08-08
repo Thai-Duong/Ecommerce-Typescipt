@@ -10,7 +10,6 @@ import { Purchase } from 'src/types/purchase.type'
 import { purchasesStatus } from 'src/utils/purchase'
 import { formatCurrency } from 'src/utils/utils'
 interface ExtendedPurchase extends Purchase {
-  // disable: boolean
   checked: boolean
 }
 export default function Cart() {
@@ -32,12 +31,6 @@ export default function Cart() {
       toast.success('Mua hàng thành công')
     }
   })
-  // const updateProductMutation = useMutation({
-  //   mutationFn: purchaseApi.updatePurchase,
-  //   onSuccess: () => {
-  //     refetch()
-  //   }
-  // })
   const purchasesInCart = cart?.data.data
   const isAllChecked = extendedPurchase.every((purchase) => purchase.checked)
   useEffect(() => {
@@ -77,7 +70,7 @@ export default function Cart() {
   }, 0)
   const handleBuyPurchases = () => {
     if (checkedPurchases.length > 0) {
-      const body = checkedPurchases.map((purchase: any) => ({
+      const body = checkedPurchases.map((purchase) => ({
         product_id: purchase.product._id,
         buy_count: purchase.buy_count
       }))
@@ -85,25 +78,25 @@ export default function Cart() {
     }
   }
   return (
-    <div className='py-16 bg-neutral-100'>
+    <div className='bg-neutral-100 py-16'>
       <Helmet>
         <title>Cart | Shop</title>
         <meta name='description' content='Trang giỏ hàng của shop' />
       </Helmet>
-      <div className='container px-4 mx-auto max-w-7xl'>
+      <div className='container mx-auto max-w-7xl px-4'>
         {extendedPurchase && extendedPurchase.length > 0 ? (
           <div className='grid grid-cols-12 gap-2'>
             <div className='col-span-9 overflow-auto'>
               <div className='min-w-[800px]'>
-                <div className='grid grid-cols-12 py-5 text-sm text-gray-500 capitalize bg-white rounded-sm shadow px-9'>
+                <div className='grid grid-cols-12 rounded-sm bg-white px-9 py-5 text-sm capitalize text-gray-500 shadow'>
                   <div className='col-span-6'>
                     <div className='flex items-center'>
-                      <div className='flex items-center justify-center flex-shrink-0 pr-3'>
+                      <div className='flex flex-shrink-0 items-center justify-center pr-3'>
                         <input
                           onChange={handleCheckAll}
                           type='checkbox'
                           checked={isAllChecked}
-                          className='w-5 h-5 accent-orange'
+                          className='accent-orange h-5 w-5'
                         />
                       </div>
                       <div className='flex-grow text-black'>{extendedPurchase.length} Sản phẩm</div>
@@ -121,7 +114,7 @@ export default function Cart() {
                           viewBox='0 0 24 24'
                           strokeWidth='1.5'
                           stroke='currentColor'
-                          className='w-6 h-6'
+                          className='h-6 w-6'
                         >
                           <path
                             strokeLinecap='round'
@@ -134,28 +127,28 @@ export default function Cart() {
                   </div>
                 </div>
                 {extendedPurchase.length > 0 && (
-                  <div className='p-5 my-3 bg-white rounded-sm shadow'>
+                  <div className='my-3 rounded-sm bg-white p-5 shadow'>
                     {extendedPurchase &&
                       extendedPurchase.map((purchase, index) => (
                         <div
                           key={purchase._id}
-                          className='grid items-center grid-cols-12 px-4 py-5 mb-5 text-sm text-center text-gray-500 bg-white border border-gray-200 rounded-sm first:mt-0'
+                          className='mb-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
                         >
                           <div className='col-span-6'>
                             <div className='flex'>
-                              <div className='flex items-center justify-center flex-shrink-0 pr-3'>
+                              <div className='flex flex-shrink-0 items-center justify-center pr-3'>
                                 <input
                                   checked={purchase.checked}
                                   onChange={handleChecked(index)}
                                   type='checkbox'
-                                  className='w-5 h-5 accent-orange'
+                                  className='accent-orange h-5 w-5'
                                 />
                               </div>
                               <div className='flex-grow'>
                                 <div className='flex'>
                                   <Link
                                     to=''
-                                    className='flex-shrink-0 w-20 h-20'
+                                    className='h-20 w-20 flex-shrink-0'
                                     // to={`${path.home}${generateNameId({
                                     //   name: purchase.product.name,
                                     //   id: purchase.product._id
@@ -164,7 +157,7 @@ export default function Cart() {
                                     <img alt={purchase.product.name} src={purchase.product.image} />
                                   </Link>
 
-                                  <div className='flex-grow px-2 pt-1 pb-2'>
+                                  <div className='flex-grow px-2 pb-2 pt-1'>
                                     {/* <Link
                                       to={`${path.home}${generateNameId({
                                         name: purchase.product.name,
@@ -179,7 +172,7 @@ export default function Cart() {
                             </div>
                           </div>
                           <div className='col-span-6'>
-                            <div className='grid items-center grid-cols-5'>
+                            <div className='grid grid-cols-5 items-center'>
                               <div className='col-span-2'>
                                 <div className='flex items-center justify-center'>
                                   <span className='ml-3'>₫{formatCurrency(purchase.product.price)}</span>
@@ -224,7 +217,7 @@ export default function Cart() {
                                   viewBox='0 0 24 24'
                                   strokeWidth='1.5'
                                   stroke='currentColor'
-                                  className='w-6 h-6'
+                                  className='h-6 w-6'
                                 >
                                   <path
                                     strokeLinecap='round'
@@ -242,15 +235,15 @@ export default function Cart() {
               </div>
             </div>
             <div className='sticky bottom-0 z-10 col-span-3 sm:flex-row sm:items-center'>
-              <div className='flex justify-between w-full h-auto p-5 bg-white'>
+              <div className='flex h-auto w-full justify-between bg-white p-5'>
                 <div>Thành tiền:</div>
-                <div className='ml-2 text-2xl text-orange'>₫{formatCurrency(totalCheckedPurchasePrice)}</div>
+                <div className='text-orange ml-2 text-2xl'>₫{formatCurrency(totalCheckedPurchasePrice)}</div>
               </div>
 
               <button
                 onClick={handleBuyPurchases}
                 disabled={buyProductMutation.isLoading}
-                className='w-full h-10 mt-2 text-sm text-white uppercase bg-red-500 border border-gray-400 rounded-lg hover:bg-red-600 '
+                className='mt-2 h-10 w-full rounded-lg border border-gray-400 bg-red-500 text-sm uppercase text-white hover:bg-red-600 '
               >
                 Mua hàng
               </button>
@@ -262,7 +255,7 @@ export default function Cart() {
             <div className='mt-5 text-center'>
               <Link
                 to='/'
-                className='px-10 py-2 text-white uppercase transition-all rounded-sm bg-orange hover:bg-orange/80'
+                className='bg-orange hover:bg-orange/80 rounded-sm px-10 py-2 uppercase text-white transition-all'
               >
                 Mua ngay
               </Link>

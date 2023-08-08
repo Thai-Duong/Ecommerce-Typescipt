@@ -126,7 +126,7 @@ export default function Header() {
                           {purchasesInCart.slice(0, 5).map((purchase) => (
                             <div className='flex py-2 mt-2 hover:bg-gray-100' key={purchase._id}>
                               <div className='flex-shrink-0'>
-                                <img src='' alt='' className='object-cover h-11 w-11' />
+                                <img src={purchase.product.image} alt='' className='object-cover h-11 w-11' />
                               </div>
                               <div className='flex-grow ml-2 overflow-hidden'>
                                 <div className='truncate'>{purchase.product.name}</div>
